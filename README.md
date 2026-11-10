@@ -46,3 +46,53 @@ jogo adotou a **mediana de três leituras** como estimador robusto.
 - Recorde persistido em `best.json`.
 
 ## 📁 Estrutura do repositório
+├── artigo/ # PDF do manuscrito (XII EXPOTEC)
+│ └── incerteza_robustez_hcsr04.pdf
+├── coleta_dados.py # GUI Tkinter para coleta (Arduino + trena)
+├── executar_app.cmd # Atalho Windows para rodar a coleta
+├── medicoes.ino # Firmware Arduino: só mede tempo de eco
+├── stranger_flappy.py # Jogo em Pygame
+├── stranger_flappy.ino # Firmware Arduino: envia D:distância
+├── analise_dados.ipynb # Notebook com toda a análise estatística
+├── dado_experimental_*cm.csv # Dados brutos (gerados pela coleta)
+└── README.md
+
+
+## ⚙️ Requisitos
+
+### Hardware
+- Arduino Uno (ou compatível)
+- Sensor HC-SR04
+- Jumpers: `VCC → 5V`, `GND → GND`, `TRIG → D9`, `ECHO → D10`
+
+### Software
+```bash
+pip install pyserial pygame numpy pandas scipy matplotlib jupyter
+```
+## 🚀 Como usar
+1. Coletar dados (experimento)
+bash
+# Windows
+executar_app.cmd
+
+1. Carregue medicoes.ino no Arduino.
+2. Posicione o alvo e meça com a trena.
+3. Informe a distância no programa e clique em COLETAR DADOS.
+4. O arquivo dado_experimental_Dcm.csv será gerado.
+
+## Analisar os dados
+```bash
+jupyter notebook analise_dados.ipynb
+```
+O notebook gera todas as tabelas, figuras e números do artigo (histogramas,
+Q-Q, testes de Shapiro-Wilk, regressões, autocorrelação etc.).
+
+## Jogar 
+```bash
+# Carregue stranger_flappy.ino no Arduino primeiro
+python stranger_flappy.py                    # autodetecta a porta
+python stranger_flappy.py --sim              # sem Arduino (mouse)
+```
+Teclas: ESPAÇO/clique inicia ou reinicia · M alterna mouse/sensor · ESC sai.
+
+
